@@ -8,7 +8,7 @@ import prbs_base
 import matplotlib.pyplot as plt
 
 class prbs_sink_b(gr.sync_block):
-    def __init__(self, which_mode="PRBS31", reset_len=100000, skip=100000):
+    def __init__(self, which_mode="PRBS31", reset_len=100000, title='', skip=100000):
         gr.sync_block.__init__(self,
             name="prbs_sink_b",
             in_sig=[numpy.int8],
@@ -16,7 +16,8 @@ class prbs_sink_b(gr.sync_block):
         self.base = prbs_base.prbs_base(which_mode, reset_len)
         self.nbits = 0.0
         self.nerrs = 0.0
-        self.skip  = skip
+        self.skip = skip
+        self.title = title
         self.array_nbits = []
         self.array_ber = []
 
@@ -39,7 +40,7 @@ class prbs_sink_b(gr.sync_block):
                  linestyle=':', label='average BER = {}'.format(self.array_ber[-1]))
         plt.xlabel('Number of bits sent')
         plt.ylabel('BER')
-        plt.title('BER vs. Number of bits sent ()')
+        plt.title('BER vs. Number of bits sent ({})'.format(self.title))
         plt.legend()
         plt.savefig('ber.png')
         return True
