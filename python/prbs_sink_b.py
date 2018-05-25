@@ -6,6 +6,7 @@ import numpy
 from gnuradio import gr
 import prbs_base
 import matplotlib.pyplot as plt
+import Levenshtein
 
 class prbs_sink_b(gr.sync_block):
     def __init__(self, which_mode="PRBS31", reset_len=100000, title='', skip=100000):
@@ -26,7 +27,7 @@ class prbs_sink_b(gr.sync_block):
         gen = self.base.gen_n(len(inb))
         if self.nitems_read(0) > self.skip:
             # only count bit errors after first skip bits
-            self.nerrs += numpy.sum(numpy.bitwise_xor(inb, gen).astype('float32'))
+            self.nerrs += Levenshtein.distance(''.join(map(str, inb.tolist())), ''.join(map(str, gen.tolist())))
             self.nbits += len(inb)
         if self.nbits > 0:
             print "NBits: %d \tNErrs: %d \tBER: %.4E"%(int(self.nbits), int(self.nerrs), self.nerrs/self.nbits)
