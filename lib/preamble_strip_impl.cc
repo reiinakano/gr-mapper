@@ -76,20 +76,26 @@ namespace gr {
         int ii(0), oo(0);
   
         while((ii<ninput_items[0])&&(oo<noutput_items)){
+          //printf("ii: %d\n", ii);
           switch(d_mode)
           {
             case 0:{//starting up
               d_search[ii%d_pattern.size()] = in[ii];
               ii++;
-              if(ii >= d_pattern.size()) d_mode = 1;
+              if(ii >= d_pattern.size()) {
+              d_mode = 1;
+              //printf("Changing to mode 1\n");
+              }
               break;
             }
             case 1:{//start up completed -> search
+              //printf("case 1\n");
               int count = 0;
               for(int i=0; i < d_pattern.size(); i++){
                 count += (d_pattern[i]==d_search[i]);
               }
               if(count == d_pattern.size()){
+                //printf("Match! moving to mode 2\n");
                 d_mode = 2;
                 d_offset = 0;
               }
@@ -104,24 +110,33 @@ namespace gr {
             }
             case 2:{//search complete -> move
               //ii is first to oo
+              //printf("case 2\n");
               int max_copy = d_userLength - d_pattern.size() - d_offset;
               max_copy = ((noutput_items-oo) < max_copy) ? (noutput_items-oo) : max_copy;
               max_copy = ((ninput_items[0]-ii) < max_copy) ? (ninput_items[0]-ii) : max_copy;
+              //printf("maxX_copy: %d\n", max_copy);
               d_offset = (d_offset+max_copy)%(d_userLength-d_pattern.size());
               memcpy( &out[oo], &in[ii], sizeof(uint8_t)*max_copy );
               oo += max_copy;
               ii += max_copy;
               if(d_offset==0){//remove other users now
+                //printf("no offset. moving to mode 3\n");
                 d_mode = 3;
               }
               break;
             }
             case 3:{
+              //printf("case 3\n");
+              /*
               int max_purge = d_purge - d_offset;
               max_purge = ((ninput_items[0]-ii) < max_purge) ? (ninput_items[0]-ii) : max_purge;
+              printf("doffset %d max_purge %d d_purge %d", d_offset, max_purge, d_purge);
               d_offset = (d_offset+max_purge)%(d_purge);
-              ii += max_purge;
+              printf("case 3\n");
+              ii += max_purge;*/
+              //printf("d_offset %d\n", d_offset);
               if(d_offset==0){//reset d_search and search
+              //printf("Resetting to mode 1\n");
                 for(int i=0; i<d_search.size(); i++) d_search[i] = 255;
                 d_mode = 1;
               }
@@ -133,6 +148,8 @@ namespace gr {
             }
           }
         }
+
+        //printf("%d %d\n", ii, oo);
         
         consume_each (ii);
 
