@@ -37,11 +37,12 @@ class prbs_sink_b(gr.sync_block):
 
     def stop(self):
         plt.plot(self.array_nbits, self.array_ber)
-        plt.plot(self.array_nbits, numpy.full([len(self.array_ber)], self.array_ber[-1]),
-                 linestyle=':', label='average BER = {}'.format(self.array_ber[-1]))
+        if len(self.array_ber) != 0:
+            plt.plot(self.array_nbits, numpy.full([len(self.array_ber)], self.array_ber[-1]),
+                     linestyle=':', label='average BER = {}'.format(self.array_ber[-1]))
         plt.xlabel('Number of bits sent')
         plt.ylabel('BER')
         plt.title('BER vs. Number of bits sent ({})'.format(self.title))
         plt.legend()
-        plt.savefig('ber.png')
+        plt.savefig('ber_{}.png'.format(self.title))
         return True
