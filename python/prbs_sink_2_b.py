@@ -13,7 +13,7 @@ class prbs_sink_2_b(gr.sync_block):
     """
     docstring for block prbs_sink_2_b
     """
-    def __init__(self, which_mode, reset_len):
+    def __init__(self, which_mode, reset_len, title):
         gr.sync_block.__init__(self,
             name="prbs_sink_2_b",
             in_sig=None,
@@ -26,7 +26,7 @@ class prbs_sink_2_b(gr.sync_block):
         self.seen = 0
         self.array_nbits = []
         self.array_ber = []
-        self.title = ''
+        self.title = title
 
         self.message_port_register_in(pmt.intern('in'))
         self.set_msg_handler(pmt.intern('in'), self.calculate_error)

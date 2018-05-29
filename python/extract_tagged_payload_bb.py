@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+# This must be the first statement before other statements.
+# You may only put a quoted or triple quoted string,
+# Python comments, other future statements, or blank lines before the __future__ line.
+try:
+    import __builtin__
+except ImportError:
+    # Python 3
+    import builtins as __builtin__
 
 import numpy as np
 from gnuradio import gr
@@ -10,6 +19,16 @@ import pmt
 class Mode(Enum):
     SEARCHING_SYNC = 1
     FOUND_SYNC = 2
+
+
+verbose = False
+
+
+def print(*args, **kwargs):
+    global verbose
+    if not verbose:
+        return
+    return __builtin__.print(*args, **kwargs)
 
 
 class extract_tagged_payload_bb(gr.basic_block):
