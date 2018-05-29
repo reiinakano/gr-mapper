@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<block>
+  <name>preamble_strip_2</name>
+  <key>mapper_preamble_strip_2</key>
+  <category>[mapper]</category>
+  <import>import mapper</import>
+  <make>mapper.preamble_strip_2($payload_width, $synch)</make>
+  <param>
+    <name>Payload width</name>
+    <key>payload_width</key>
+    <value>100</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Preamble</name>
+    <key>synch</key>
+    <value>[0,0,0,0]</value>
+    <type>int_vector</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>

@@ -33,8 +33,9 @@ GR_PYTHON_INSTALL(
     __init__.py
     prbs_base.py
     prbs_sink_b.py
-    prbs_source_b.py 
-    DESTINATION ${GR_PYTHON_DIR}/mapper
+    prbs_source_b.py
+    preamble_strip_2.py
+    extract_tagged_payload_bb.py DESTINATION ${GR_PYTHON_DIR}/mapper
 )
 
 ########################################################################
@@ -46,3 +47,5 @@ set(GR_TEST_TARGET_DEPS gnuradio-mapper)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_preamble ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_preamble.py)
 GR_ADD_TEST(qa_preamble_sync_demapper ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_preamble_sync_demapper.py)
+GR_ADD_TEST(qa_preamble_strip_2 ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_preamble_strip_2.py)
+GR_ADD_TEST(qa_extract_tagged_payload_bb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_extract_tagged_payload_bb.py)

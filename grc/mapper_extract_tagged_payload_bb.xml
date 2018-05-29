@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<block>
+  <name>extract_tagged_payload_bb</name>
+  <key>mapper_extract_tagged_payload_bb</key>
+  <category>[mapper]</category>
+  <import>import mapper</import>
+  <make>mapper.extract_tagged_payload_bb($payload_width, $synch_length)</make>
+  <param>
+    <name>Payload width</name>
+    <key>payload_width</key>
+    <value>100</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Preamble width</name>
+    <key>synch_length</key>
+    <value>4</value>
+    <type>int</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>
