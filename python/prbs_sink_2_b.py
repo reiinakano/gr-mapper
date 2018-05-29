@@ -22,7 +22,6 @@ class prbs_sink_2_b(gr.sync_block):
         self.gen = self.base.gen_n(reset_len)
         self.nbits = 0.0
         self.nerrs = 0.0
-        self.skip = 100000 // reset_len
         self.seen = 0
         self.array_nbits = []
         self.array_ber = []
@@ -34,9 +33,6 @@ class prbs_sink_2_b(gr.sync_block):
     def calculate_error(self, msg):
         if not pmt.is_u8vector(msg):
             print('wrong type of PMT')
-            return
-        if self.seen < self.skip:
-            self.seen += 1
             return
         vec = pmt.to_python(msg)
         self.nerrs += Levenshtein.distance(''.join(map(str, vec.tolist())), ''.join(map(str, self.gen.tolist())))
@@ -62,3 +58,9 @@ class prbs_sink_2_b(gr.sync_block):
         ax.legend()
         fig.savefig('ber_{}.png'.format(self.title))
         return True
+
+    def get_ber(self):
+        if self.nbits == 0:
+            return 1.
+        else:
+            return self.nerrs/self.nbits
