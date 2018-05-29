@@ -49,6 +49,7 @@ from prbs_source_b import prbs_source_b
 from prbs_sink_b import prbs_sink_b
 from preamble_strip_2 import preamble_strip_2
 from extract_tagged_payload_bb import extract_tagged_payload_bb
+from prbs_sink_2_b import prbs_sink_2_b
 #
 
 # ----------------------------------------------------------------

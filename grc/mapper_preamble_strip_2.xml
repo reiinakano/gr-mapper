@@ -24,7 +24,12 @@
   </sink>
 
   <source>
-    <name>out</name>
+    <name>packet_out</name>
+    <type>message</type>
+  </source>
+
+  <source>
+    <name>raster_out</name>
     <type>byte</type>
   </source>
 </block>

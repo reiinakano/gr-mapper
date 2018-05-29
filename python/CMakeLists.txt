@@ -35,7 +35,8 @@ GR_PYTHON_INSTALL(
     prbs_sink_b.py
     prbs_source_b.py
     preamble_strip_2.py
-    extract_tagged_payload_bb.py DESTINATION ${GR_PYTHON_DIR}/mapper
+    extract_tagged_payload_bb.py
+    prbs_sink_2_b.py DESTINATION ${GR_PYTHON_DIR}/mapper
 )
 
 ########################################################################
@@ -49,3 +50,4 @@ GR_ADD_TEST(qa_preamble ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_prea
 GR_ADD_TEST(qa_preamble_sync_demapper ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_preamble_sync_demapper.py)
 GR_ADD_TEST(qa_preamble_strip_2 ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_preamble_strip_2.py)
 GR_ADD_TEST(qa_extract_tagged_payload_bb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_extract_tagged_payload_bb.py)
+GR_ADD_TEST(qa_prbs_sink_2_b ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_prbs_sink_2_b.py)

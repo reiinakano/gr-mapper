@@ -21,6 +21,8 @@ class preamble_strip_2(gr.hier_block2):
         self.payload_width = payload_width
         self.synch = synch
 
+        self.message_port_register_hier_out('packet_out')
+
         synch_string = ''.join(map(str, synch))
 
         self.correlate = digital.correlate_access_code_tag_bb(synch_string, 0, "payload")
@@ -30,3 +32,5 @@ class preamble_strip_2(gr.hier_block2):
         self.connect((self, 0), self.correlate)
         self.connect(self.correlate, self.extract)
         self.connect(self.extract, (self, 0))
+
+        self.msg_connect(self.extract, 'packet_out', self, 'packet_out')

@@ -27,4 +27,9 @@
     <name>out</name>
     <type>byte</type>
   </source>
+
+  <source>
+    <name>packet_out</name>
+    <type>message</type>
+  </source>
 </block>

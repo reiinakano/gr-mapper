@@ -4,6 +4,7 @@
 import numpy as np
 from gnuradio import gr
 from enum import Enum
+import pmt
 
 
 class Mode(Enum):
@@ -25,6 +26,8 @@ class extract_tagged_payload_bb(gr.basic_block):
         self.mode = Mode.SEARCHING_SYNC
 
         self.set_output_multiple(int(self.payload_width*1.05))
+
+        self.message_port_register_out(pmt.intern('packet_out'))
 
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
@@ -54,9 +57,11 @@ class extract_tagged_payload_bb(gr.basic_block):
                 if width < int(self.payload_width*1.05): # valid payload
                     print('found valid payload with length {}'.format(width))
                     output_items[0][:width] = input_items[0][:width]
+                    self.message_port_pub(pmt.intern('packet_out'),
+                                          pmt.to_pmt(input_items[0][:width]))
                     self.consume(0, consumed_so_far)
                     print('consumed {}'.format(consumed_so_far))
-                    return width
+                    return self.payload_width
                 else:
                     print('invalid payload with length {}.'
                           ' musta skipped a few'.format(width))
