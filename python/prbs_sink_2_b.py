@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import matplotlib
-matplotlib.use('agg')
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 import numpy
 from gnuradio import gr
 import prbs_base
-import matplotlib.pyplot as plt
 import Levenshtein
 import pmt
 
@@ -49,13 +47,18 @@ class prbs_sink_2_b(gr.sync_block):
             self.array_ber.append(self.nerrs/self.nbits)
 
     def stop(self):
-        plt.plot(self.array_nbits, self.array_ber)
+        fig = Figure()
+        FigureCanvas(fig)
+
+        ax = fig.add_subplot(111)
+
+        ax.plot(self.array_nbits, self.array_ber)
         if len(self.array_ber) != 0:
-            plt.plot(self.array_nbits, numpy.full([len(self.array_ber)], self.array_ber[-1]),
+            ax.plot(self.array_nbits, numpy.full([len(self.array_ber)], self.array_ber[-1]),
                      linestyle=':', label='average BER = {}'.format(self.array_ber[-1]))
-        plt.xlabel('Number of bits sent')
-        plt.ylabel('BER')
-        plt.title('BER vs. Number of bits sent ({})'.format(self.title))
-        plt.legend()
-        plt.savefig('ber_{}.png'.format(self.title))
+        ax.set_xlabel('Number of bits sent')
+        ax.set_ylabel('BER')
+        ax.set_title('BER vs. Number of bits sent ({})'.format(self.title))
+        ax.legend()
+        fig.savefig('ber_{}.png'.format(self.title))
         return True
