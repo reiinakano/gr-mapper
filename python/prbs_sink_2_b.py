@@ -26,11 +26,16 @@ class prbs_sink_2_b(gr.sync_block):
         self.array_nbits = []
         self.array_ber = []
         self.title = title
+        self.clear = 20
+        self.messages_so_far = 0
 
         self.message_port_register_in(pmt.intern('in'))
         self.set_msg_handler(pmt.intern('in'), self.calculate_error)
 
     def calculate_error(self, msg):
+        if self.clear > self.messages_so_far:
+            self.messages_so_far += 1
+            return
         if not pmt.is_u8vector(msg):
             print('wrong type of PMT')
             return
